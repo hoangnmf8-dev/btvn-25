@@ -175,11 +175,10 @@ const slideShowApp = {
 
   handleMouseUp(e) {
     if (!this.isDrag) return; // Đảm bảo chỉ chạy logic khi đang kéo
-
     this.isDrag = false;
     slideShowEl.classList.replace("cursor-grabbing", "cursor-default");
 
-    const trackWidth = this.getTrackWidth(); 
+    const trackWidth = this.getTrackWidth();
     const percentMove = (Math.abs(this.mouseMoveDistance) / trackWidth) * 100;
 
     trackEl.style.transition = "transform 0.3s";
@@ -193,6 +192,8 @@ const slideShowApp = {
         this.currentImg * trackWidth + this.getTrackWidth()
       }px)`;
     }
+    this.mouseMoveDistance = 0;
+    this.percentMove = 0;
   },
 
   handleAction(e) {
