@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Slide Show</title>
+    <link
+      rel="icon"
+      href="./assets/favicon/logo-manchester-united.webp"
+      type="image/webp"
+    />
+    <link
+      rel="apple-touch-icon"
+      href="./assets/favicon/logo-manchester-united.webp"
+    />
+    <link
+      rel="icon"
+      sizes="192x192"
+      href="./assets/favicon/logo-manchester-united.webp"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <style type="text/tailwindcss">
+      .controls-btn {
+        @apply absolute top-1/2 -translate-y-1/2 flex items-center justify-center bg-gray-500 w-[50px] aspect-square text-white text-lg cursor-pointer hover:bg-gray-400;
+      }
+
+      .dotted-item {
+        @apply w-[20px] aspect-square rounded-full bg-blue-400 cursor-pointer;
+      }
+
+      .active {
+        @apply bg-yellow-300;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="my-slideshow" class="relative overflow-x-hidden">
+      <ul class="track relative flex w-full gap-0"></ul>
+
+     <div class="controls">
+        <button class="controls-btn back left-2">
+          <i class="fa-solid fa-chevron-left left"></i>
+        </button>
+  
+        <button class="controls-btn next right-2">
+          <i class="fa-solid fa-chevron-right right"></i>
+        </button>
+     </div>
+
+      <ul
+        class="dotted absolute left-1/2 -translate-x-1/2 bottom-2 flex gap-4"
+      ></ul>
+    </div>
+    <script src="./main.js"></script>
+  </body>
+</html>
