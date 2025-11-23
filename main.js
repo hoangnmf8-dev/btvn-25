@@ -103,6 +103,7 @@ const slideShowApp = {
     setTimeout(() => {
       this.isActive = true;
     }, 400);
+    return false;
   },
 
   nextImg(id = undefined) {
