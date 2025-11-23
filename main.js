@@ -164,6 +164,7 @@ const slideShowApp = {
     if (e.target.closest(".controls-btn") || e.target.matches(".dotted-item")) {
       return;
     }
+    if(!this.isActive) return;
     if (e.button === 0) {
       this.isDrag = true;
       slideShowEl.classList.add("cursor-grabbing");
@@ -204,6 +205,7 @@ const slideShowApp = {
     }
     this.mouseMoveDistance = 0;
     this.percentMove = 0;
+    this.throttlingClick();
   },
 
   handleAction(e) {
