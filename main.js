@@ -56,8 +56,8 @@ const slideShowApp = {
 
   renderImg() {
     const dataImgsClone = this.dataImgs.slice(0);
-    const firstImg = this.dataImgs[0];
-    const lastImg = this.dataImgs[this.dataImgs.length - 1];
+    const firstImg = {...this.dataImgs[0]};
+    const lastImg = {...this.dataImgs[this.dataImgs.length - 1]};
     firstImg.id = this.dataImgs.length + 1;
     dataImgsClone.push(firstImg);
     dataImgsClone.unshift(lastImg);
@@ -87,17 +87,26 @@ const slideShowApp = {
     dottedEl.innerHTML = dottedStr;
   },
 
-  updateDotted() {
+  updateDotted(lastImg = null) {
     $$(".dotted-item").forEach((item, index) => {
       item.classList.remove("active");
-      if (index === this.currentImg % this.dataImgs.length) {
+      if (index === this.currentImg % this.dataImgs.length || index === lastImg) {
         //Khi đến ảnh fake thì currentImg = dataImgs.length nên chia dư = 0 sẽ set ngay màu cho dot đầu tiên, tránh bị delay vì dot cũng có transition
         item.classList.add("active");
       }
     });
   },
 
+  throttlingClick() {
+    if(!this.isActive) return true;
+    this.isActive = false;
+    setTimeout(() => {
+      this.isActive = true;
+    }, 400);
+  },
+
   nextImg(id = undefined) {
+    if(this.throttlingClick()) return;
     const trackWidth = this.getTrackWidth();
     trackEl.style.transition = "transform .3s";
     let nextIndex = id !== undefined ? id : this.currentImg + 1;
@@ -122,6 +131,7 @@ const slideShowApp = {
   },
 
   backImg(id = undefined) {
+    if(this.throttlingClick()) return;
     const trackWidth = this.getTrackWidth();
     trackEl.style.transition = "transform .3s";
     let prevIndex = id !== undefined ? id : this.currentImg - 1;
@@ -133,7 +143,6 @@ const slideShowApp = {
 
     if (prevIndex < 0) {
       //Xử lý infinite carousel previous
-      this.currentImg = prevIndex;
       trackEl.style.transform = `translateX(0px)`; //Di chuyển đến ảnh fake
 
       setTimeout(() => {
@@ -142,8 +151,8 @@ const slideShowApp = {
         trackEl.style.transform = `translateX(-${
           this.currentImg * trackWidth + this.getTrackWidth()
         }px)`;
-        this.updateDotted();
       }, 350);
+      this.updateDotted(this.dataImgs.length - 1);
       return;
     }
   },
@@ -154,7 +163,7 @@ const slideShowApp = {
     if (e.target.closest(".controls-btn") || e.target.matches(".dotted-item")) {
       return;
     }
-    if (e.which === 1) {
+    if (e.button === 0) {
       this.isDrag = true;
       slideShowEl.classList.add("cursor-grabbing");
     }
